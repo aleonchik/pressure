@@ -51,7 +51,19 @@ public class PressureDaoImpl implements PressureDao {
 
     @Override
     public void insert(Integer userId, Pressure pressure) {
+        String sql = "INSERT INTO pressure (patient_id, sys, dia, pulse, dtm) VALUES (?, ?, ?, ?, ?)";
 
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, pressure.getPatientId());
+            ps.setInt(2, pressure.getSys());
+            ps.setInt(3, pressure.getDia());
+            ps.setInt(4, pressure.getPulse());
+            ps.setObject(5, pressure.getDtm());
+
+            ps.executeLargeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -43,21 +43,29 @@ public class Show extends HttpServlet {
         PrintWriter out = resp.getWriter();
 
         out.println("<html>");
+
+        out.println("<head>");
+        out.println("<link rel=\"stylesheet\" href=\"styles.css\">");
+        out.println("<head>");
+
         out.println("<body>");
 
         out.println("<h3>Данные для " + patient.getName() + "</h3>");
 
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("EEEE d MMMM u HH:MM");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("EEEE d MMMM HH:MM u");
 
         if (!pressureList.isEmpty()) {
             out.println("<table>");
+            out.println("<tr>");
+            out.println("<th>Sys</ht><th>Dia</ht><th>Pulse</ht><th>Дата</ht>");
+            out.println("</tr>");
             for (Pressure p : pressureList) {
                 LocalDateTime dtm = p.getDtm();
 
                 out.println("<tr>");
-                out.println("<td>" + p.getDia() + "</td>");
-                out.println("<td>" + p.getSys() + "</td>");
-                out.println("<td>" + p.getPulse() + "</td>");
+                out.println("<td align=\"right\">" + p.getDia() + "</td>");
+                out.println("<td align=\"right\">" + p.getSys() + "</td>");
+                out.println("<td align=\"right\">" + p.getPulse() + "</td>");
                 out.println("<td>" + dtm.format(fmt) + "</td>");
 //                out.println("<td>" + p.getDtm() + "</td>");
                 out.println("</tr>");
@@ -66,6 +74,19 @@ public class Show extends HttpServlet {
         } else {
             out.println("<h3>Данные отсутствуют</h3>");
         }
+
+        out.println("<p>");
+        out.println("<h3>Добавить данные </h3>");
+
+        out.println("<form method=\"post\" action=\"addpressure\">");
+        out.println("SYS: <input type=\"text\" name=\"sys\" required size=\"3\">");
+        out.println("DIA: <input type=\"text\" name=\"dia\" required size=\"3\">");
+        out.println("Pulse: <input type=\"text\" name=\"pulse\" required size=\"3\"><br>");
+        out.println("Дата: <input type=\"datetime-local\" name=\"dtm\" required><br>");
+        out.println("<input type=\"submit\" value=\"OK\">");
+        out.println("<input type=\"hidden\" name=\"userid\" value=\"" +  userId + "\">");
+        out.println("</form>");
+        out.println("</p>");
 
         out.println("<a href='./view'>Вернуться</a>");
 
