@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test cookie</title>
+</head>
+<body>
+
+<!--
+1       public void setDomain(String pattern)
+        This method sets the domain to which cookie applies, for example tutorialspoint.com.
+
+2	    public String getDomain()
+        This method gets the domain to which cookie applies, for example tutorialspoint.com.
+
+3	    public void setMaxAge(int expiry)
+        This method sets how much time (in seconds) should elapse before the cookie expires.
+        If you don't set this, the cookie will last only for the current session.
+
+4	    public int getMaxAge()
+        This method returns the maximum age of the cookie, specified in seconds, By default, -1 indicating
+        the cookie will persist until browser shutdown.
+
+5	    public String getName()
+        This method returns the name of the cookie. The name cannot be changed after creation.
+
+6	    public void setValue(String newValue)
+        This method sets the value associated with the cookie
+
+7	    public String getValue()
+        This method gets the value associated with the cookie.
+
+8	    public void setPath(String uri)
+        This method sets the path to which this cookie applies. If you don't specify a path,
+        the cookie is returned for all URLs in the same directory as the current page as well as all subdirectories.
+
+9	    public String getPath()
+        This method gets the path to which this cookie applies.
+
+10	    public void setSecure(boolean flag)
+        This method sets the boolean value indicating whether the cookie should only be sent
+        over encrypted (i.e. SSL) connections.
+
+11	    public void setComment(String purpose)
+        This method specifies a comment that describes a cookie's purpose. The comment is useful if the
+        browser presents the cookie to the user.
+
+12	    public String getComment()
+        This method returns the comment describing the purpose of this cookie,
+        or null if the cookie has no comment.
+-->
+
+    <form action = "hf" method = "GET">
+        First Name: <input type = "text" name = "first_name">
+        <br />
+        Last Name: <input type = "text" name = "last_name" />
+        <input type = "submit" value = "Submit" />
+    </form>
+
+    <p>
+        <a href="/pressure/index.html">pressure</a>
+    </p>
+
+    <p>
+        <a href="rc">Посмотреть</a> установленные куки
+    </p>
+
+    <p>
+        <a href="dc">Удалить</a> куки
+    </p>
+
+</body>
+</html>
