@@ -36,6 +36,8 @@ public class AddPressure extends HttpServlet {
         DateTimeFormatter formatter = ISO_LOCAL_DATE_TIME;
         p.setDtm(LocalDateTime.parse(req.getParameter("dtm"),formatter));
 
+        pressureDao.insert(userId, p);
+
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();

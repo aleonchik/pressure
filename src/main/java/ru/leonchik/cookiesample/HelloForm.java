@@ -1,4 +1,4 @@
-package ru.leonchik.servlet;
+package ru.leonchik.cookiesample;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

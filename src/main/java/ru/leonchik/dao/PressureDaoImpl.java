@@ -58,8 +58,11 @@ public class PressureDaoImpl implements PressureDao {
             ps.setInt(2, pressure.getSys());
             ps.setInt(3, pressure.getDia());
             ps.setInt(4, pressure.getPulse());
-            ps.setObject(5, pressure.getDtm());
-
+//            ps.setObject(5, pressure.getDtm());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//            LocalDateTime ldtm = pressure.getDtm();
+//            ps.setString(5, ldtm.format(formatter));
+            ps.setString(5, pressure.getDtm().format(formatter));
             ps.executeLargeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

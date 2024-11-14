@@ -1,6 +1,7 @@
 package ru.leonchik.servlet;
 
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,15 +29,22 @@ public class Show extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // Получим араметры
         int userId = Integer.parseInt(req.getParameter("usr"));
-        String period = req.getParameter("period");
+        int period = Integer.parseInt(req.getParameter("period"));
+//        String period = req.getParameter("period");
 
         Patient patient;
         List<Pressure> pressureList;
 
+        // Запомним в куку
+        Cookie cookieUserId = new Cookie("userId", Integer.toString(userId));
+        cookieUserId.setMaxAge(60 * 60 * 24);
+        cookieUserId.setValue(cookieUserId.getValue());
+        resp.addCookie(cookieUserId);
+
         // Получим имя
         patient = patientDao.single(userId);
         // Получим данные давления определенного пациента
-        pressureList = pressureDao.all(userId, 14);
+        pressureList = pressureDao.all(userId, period);
 
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
@@ -50,9 +58,9 @@ public class Show extends HttpServlet {
 
         out.println("<body>");
 
-        out.println("<h3>Данные для " + patient.getName() + "</h3>");
+        out.println("<h3>Данные для " + patient.getName() + " за " + period + " </h3>");
 
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("EEEE d MMMM HH:MM u");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("EEEE d MMMM HH:mm u");
 
         if (!pressureList.isEmpty()) {
             out.println("<table>");
@@ -63,8 +71,8 @@ public class Show extends HttpServlet {
                 LocalDateTime dtm = p.getDtm();
 
                 out.println("<tr>");
-                out.println("<td align=\"right\">" + p.getDia() + "</td>");
                 out.println("<td align=\"right\">" + p.getSys() + "</td>");
+                out.println("<td align=\"right\">" + p.getDia() + "</td>");
                 out.println("<td align=\"right\">" + p.getPulse() + "</td>");
                 out.println("<td>" + dtm.format(fmt) + "</td>");
 //                out.println("<td>" + p.getDtm() + "</td>");

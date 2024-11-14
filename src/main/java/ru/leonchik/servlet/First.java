@@ -2,6 +2,7 @@ package ru.leonchik.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +24,25 @@ public class First extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int SELECTED_USER_ID = 2;
+//        int SELECTED_USER_ID = 2;
+        int userId = 0;
+        Cookie cookieUsserId = null;
+        Cookie[] cookies = null;
+
+        // Read cookieUserId
+        cookies = req.getCookies();
+
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                cookieUsserId = cookies[i];
+                if (cookieUsserId.getName().equals("userId")) {
+                    userId = Integer.parseInt(cookieUsserId.getValue());
+//                    SELECTED_USER_ID = userId;
+                }
+            }
+        }
+
+
 
         /*Logger LOG = Logger.getLogger(First.class.getName());
         LOG.setLevel(Level.ALL);
@@ -47,16 +66,19 @@ public class First extends HttpServlet {
         out.println("<select name=\"usr\" id=\"select-user\">");
         out.println("<option value=''>-- Выберите пользователя --</option>");
 
+
+
+
         List<Patient> pat;
         pat = dao.all();
 
         for (Patient pt : pat) {
-            int userId = pt.getId();
+            int uId = pt.getId();
 
-            if (userId == SELECTED_USER_ID)
-                out.println("<option value='" + userId + "' selected>" + pt.getName() + "</option>");
+            if (uId == userId)
+                out.println("<option value='" + uId + "' selected>" + pt.getName() + "</option>");
             else
-                out.println("<option value='" + userId + "'>" + pt.getName() + "</option>");
+                out.println("<option value='" + uId + "'>" + pt.getName() + "</option>");
         }
 
         out.println("</select>");
@@ -69,13 +91,13 @@ public class First extends HttpServlet {
         out.println("<p>");
         out.println("<fieldset>");
 
-        out.println("<input type=\"radio\" name=\"period\" id=\"last_7\" value=\"last_7\">");
+        out.println("<input type=\"radio\" name=\"period\" id=\"last_7\" value=\"7\">");
         out.println("<label for=\"last_7\">7 дней</label><br>");
 
-        out.println("<input type=\"radio\" name=\"period\" id=\"last_14\" value=\"last_14\" checked>");
+        out.println("<input type=\"radio\" name=\"period\" id=\"last_14\" value=\"14\" checked>");
         out.println("<label for=\"last_14\">14 дней</label><br>");
 
-        out.println("<input type=\"radio\" name=\"period\" id=\"last_30\" value=\"last_30\">");
+        out.println("<input type=\"radio\" name=\"period\" id=\"last_30\" value=\"30\">");
         out.println("<label for=\"last_30\">30 дней</label>");
 
         out.println("</fieldset>");
