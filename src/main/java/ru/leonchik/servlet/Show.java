@@ -1,5 +1,6 @@
 package ru.leonchik.servlet;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -24,6 +25,12 @@ public class Show extends HttpServlet {
 
     protected PatientDao patientDao = new PatientDaoImpl();
     protected PressureDao pressureDao = new PressureDaoImpl();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        super.doGet(req, resp);
+        doPost(req, resp);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -65,7 +72,7 @@ public class Show extends HttpServlet {
         if (!pressureList.isEmpty()) {
             out.println("<table>");
             out.println("<tr>");
-            out.println("<th>Sys</ht><th>Dia</ht><th>Pulse</ht><th>Дата</ht>");
+            out.println("<th>Sys</ht><th>Dia</ht><th>Pulse</ht><th>Дата</ht><th>Редакторовать</th><th>Удалить</th>");
             out.println("</tr>");
             for (Pressure p : pressureList) {
                 LocalDateTime dtm = p.getDtm();
@@ -75,6 +82,8 @@ public class Show extends HttpServlet {
                 out.println("<td align=\"right\">" + p.getDia() + "</td>");
                 out.println("<td align=\"right\">" + p.getPulse() + "</td>");
                 out.println("<td>" + dtm.format(fmt) + "</td>");
+                out.println("<td><a href=\"editrec&id=" +  p.getId()  + "\">Редактировать</a></td>");
+                out.println("<td><a href=\"delrec?id=" + p.getId() + "\">Удалить</a></td>");
 //                out.println("<td>" + p.getDtm() + "</td>");
                 out.println("</tr>");
             }

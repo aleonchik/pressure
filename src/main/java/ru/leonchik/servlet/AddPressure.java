@@ -45,13 +45,16 @@ public class AddPressure extends HttpServlet {
         out.println("<html>");
 
         out.println("<head>");
-        out.println("<link rel=\"stylesheet\" href=\"styles.css\">");
+//        out.println("<link rel=\"stylesheet\" href=\"styles.css\">");
+//        out.println("<meta http-equiv=\"refresh\" content=\"2;URL=http://localhost:8080/pressure/show">");
+
         out.println("<head>");
 
         out.println("<body>");
         out.println("userid: " + userId);
         out.println("<br>dtm: " + req.getParameter("dtm") + "<br><br>");
         out.println(p.toString());
+        out.println("<p><a href=\"/pressure/show?usr=" + userId + "&period=14\">Вернуться</a></p>");
         out.println("</body>");
 
         out.println("</html>");

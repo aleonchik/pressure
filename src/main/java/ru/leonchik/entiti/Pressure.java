@@ -21,7 +21,7 @@ public class Pressure {
         this.dtm = LocalDateTime.now();
     }
 
-    public Pressure(long patientId, int sys, int dia, int pulse, LocalDateTime dtm) {
+    public Pressure(long id, long patientId, int sys, int dia, int pulse, LocalDateTime dtm) {
 
         /*
          * String str = "2014-04-08 12:30";
@@ -35,6 +35,7 @@ public class Pressure {
          * LocalDateTime time = LocalDateTime.now();
          * System.out.println("Сейчас = " + time);
          */
+        this.id = id;
         this.patientId = patientId;
         this.sys = sys;
         this.dia = dia;

@@ -29,6 +29,7 @@ public class PressureDaoImpl implements PressureDao {
 
             while (rs.next()) {
                 press.add(new Pressure(
+                        rs.getInt("id"),
                         userId,
                         rs.getInt("sys"),
                         rs.getInt("dia"),
@@ -76,6 +77,23 @@ public class PressureDaoImpl implements PressureDao {
 
     @Override
     public void delete(long pressureId) {
+        String sql = "DELETE FROM pressure WHERE id = ?";
 
+        try (PreparedStatement psDel = conn.prepareStatement(sql)) {
+            try { psDel.setLong(1, pressureId); }
+            catch (SQLException e) { throw new RuntimeException(e); }
+
+            try {
+                if (psDel.executeUpdate() > 0) {
+                    System.out.println("Record with id=" + pressureId + " deleted");
+                } else {
+                    System.out.println("Record with id=" + pressureId + " NOT deleted\"");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
