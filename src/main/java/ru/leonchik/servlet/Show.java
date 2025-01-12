@@ -67,23 +67,34 @@ public class Show extends HttpServlet {
 
         out.println("<h3>Данные для " + patient.getName() + " за " + period + " </h3>");
 
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("EEEE d MMMM HH:mm u");
+        // Иконка День / Вечер
+        String iconDayNight = "";
+        LocalDateTime dtm;
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("E d MMMM HH:mm u");
 
         if (!pressureList.isEmpty()) {
             out.println("<table>");
             out.println("<tr>");
-            out.println("<th>Sys</ht><th>Dia</ht><th>Pulse</ht><th>Дата</ht><th>Редакторовать</th><th>Удалить</th>");
+            out.println("<th>День / Ночь</th><th>Sys</ht><th>Dia</ht><th>Pulse</ht><th>Дата</ht><th>Редакторовать</th><th>Удалить</th>");
             out.println("</tr>");
+
             for (Pressure p : pressureList) {
-                LocalDateTime dtm = p.getDtm();
+                dtm = p.getDtm();
+
+                if ((dtm.getHour() < 12))
+                    iconDayNight = "<img src=\"img/day.png\" height=\"30\">";
+                else
+                    iconDayNight = "<img src=\"img/night.png\" height=\"30\">";
 
                 out.println("<tr>");
+                out.println("<td>" + iconDayNight + "</td>");
                 out.println("<td align=\"right\">" + p.getSys() + "</td>");
                 out.println("<td align=\"right\">" + p.getDia() + "</td>");
                 out.println("<td align=\"right\">" + p.getPulse() + "</td>");
                 out.println("<td>" + dtm.format(fmt) + "</td>");
                 out.println("<td><a href=\"editrec&id=" +  p.getId()  + "\">Редактировать</a></td>");
-                out.println("<td><a href=\"delrec?id=" + p.getId() + "\">Удалить</a></td>");
+                out.println("<td><a href=\"delrec?id=" + p.getId() +
+                        "\" onclick=\"return confirm('Действительно хотите далить?')\">Удалить</a></td>");
 //                out.println("<td>" + p.getDtm() + "</td>");
                 out.println("</tr>");
             }

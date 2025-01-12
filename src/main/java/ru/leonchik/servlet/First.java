@@ -12,6 +12,7 @@ import ru.leonchik.entiti.Patient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/view"})
@@ -74,11 +75,12 @@ public class First extends HttpServlet {
 
         for (Patient pt : pat) {
             int uId = pt.getId();
+            int age = LocalDate.now().getYear() - pt.getBirth().getYear();
 
             if (uId == userId)
-                out.println("<option value='" + uId + "' selected>" + pt.getName() + "</option>");
+                out.println("<option value='" + uId + "' selected>" + pt.getName() + " " + age + " лет" + "</option>");
             else
-                out.println("<option value='" + uId + "'>" + pt.getName() + "</option>");
+                out.println("<option value='" + uId + "'>" + pt.getName() + " " + age + " лет" + "</option>");
         }
 
         out.println("</select>");

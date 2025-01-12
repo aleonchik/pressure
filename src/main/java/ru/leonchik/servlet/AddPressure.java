@@ -53,7 +53,7 @@ public class AddPressure extends HttpServlet {
         out.println("<body>");
         out.println("userid: " + userId);
         out.println("<br>dtm: " + req.getParameter("dtm") + "<br><br>");
-        out.println(p.toString());
+//        out.println(p.toString());
         out.println("<p><a href=\"/pressure/show?usr=" + userId + "&period=14\">Вернуться</a></p>");
         out.println("</body>");
 
