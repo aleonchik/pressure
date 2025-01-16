@@ -1,13 +1,10 @@
 package ru.leonchik.dao;
 
-import ru.leonchik.entiti.Patient;
 import ru.leonchik.entiti.Pressure;
 import ru.leonchik.exception.EntityNotFoundException;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +16,20 @@ public class PressureDaoImpl implements PressureDao {
     @Override
     public List<Pressure> all(int userId, int count) {
         String sql = "SELECT id, patient_id, sys, dia, pulse, dtm " +
-                "FROM pressure WHERE patient_id = ? LIMIT ?";
+                "FROM pressure WHERE patient_id = ? AND DATEDIFF(DAY, dtm, ?) < ?";
+
+        /**
+         * Берем последнюю дату записи для пользователя и от нее в обратную
+         * сторону отсчитываем нужное количество последних дней
+         */
+        Date lastDate = getLastDate(userId);
+
         List<Pressure> press = new ArrayList<>();
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, userId);
-            ps.setInt(2, count);
+            ps.setDate(2, lastDate);
+            ps.setInt(3, count);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -35,7 +40,6 @@ public class PressureDaoImpl implements PressureDao {
                         rs.getInt("dia"),
                         rs.getInt("pulse"),
                         rs.getTimestamp("dtm").toLocalDateTime()));
-//                        rs.getObject("dtm", LocalDateTime.class)));
             }
 
         } catch (SQLException e) {
@@ -95,5 +99,29 @@ public class PressureDaoImpl implements PressureDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Возвращаем последнюю дату записи для выбранного пользователя. Если записей нет - возвращаем текущую дату
+     * @param userId
+     * @return Date
+     */
+    Date getLastDate(int userId) {
+        String sql = "SELECT dtm FROM pressure WHERE patient_id = ? ORDER BY id DESC LIMIT 1";
+        LocalDateTime ld = LocalDateTime.now();
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ld = rs.getTimestamp("dtm").toLocalDateTime();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return Date.valueOf(ld.toLocalDate());
     }
 }

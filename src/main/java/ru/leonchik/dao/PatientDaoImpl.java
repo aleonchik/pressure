@@ -24,12 +24,12 @@ public class PatientDaoImpl implements PatientDao {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                LocalDate ld = rs.getDate(3).toLocalDate();
+//                LocalDate ld = rs.getDate(3).toLocalDate();
                 allPat.add(new Patient(rs.getInt(1), rs.getString(2), rs.getDate(3).toLocalDate()));
             }
 
             if (!rs.isClosed()) rs.close();
-            if (!ps.isClosed()) ps.close();
+//            if (!ps.isClosed()) ps.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -104,7 +104,7 @@ public class PatientDaoImpl implements PatientDao {
         return data;
     }
 
-    private long nextId() {
+    /*private long nextId() {
         return data().get(data().size() - 1).getId();
-    }
+    }*/
 }
