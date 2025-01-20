@@ -57,11 +57,12 @@ public class Show extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
 
+        out.println("<!DOCTYPE html>");
         out.println("<html>");
 
         out.println("<head>");
         out.println("<link rel=\"stylesheet\" href=\"styles.css\">");
-        out.println("<head>");
+        out.println("</head>");
 
         out.println("<body>");
 
@@ -92,9 +93,9 @@ public class Show extends HttpServlet {
                 out.println("<td align=\"right\">" + p.getDia() + "</td>");
                 out.println("<td align=\"right\">" + p.getPulse() + "</td>");
                 out.println("<td>" + dtm.format(fmt) + "</td>");
-                out.println("<td><a href=\"editrec&id=" +  p.getId()  + "\">Редактировать</a></td>");
-                out.println("<td><a href=\"delrec?id=" + p.getId() +
-                        "\" onclick=\"return confirm('Действительно хотите далить?')\">Удалить</a></td>");
+                out.println("<td align=\"center\"><a href=\"editrec?id=" +  p.getId()  + "\"><img alt=\"Редактировать\" src=\"img/editrec.png\" height=\"30\"></a></td>");
+                out.println("<td align=\"center\"><a href=\"delrec?id=" + p.getId() +
+                        "\" onclick=\"return confirm('Действительно хотите далить?')\"><img alt=\"Удалить\" src=\"img/delrec.png\" height=\"30\"></a></td>");
 //                out.println("<td>" + p.getDtm() + "</td>");
                 out.println("</tr>");
             }

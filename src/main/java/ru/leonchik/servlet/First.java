@@ -25,7 +25,6 @@ public class First extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        int SELECTED_USER_ID = 2;
         int userId = 0;
         Cookie cookieUsserId = null;
         Cookie[] cookies = null;
@@ -38,12 +37,9 @@ public class First extends HttpServlet {
                 cookieUsserId = cookies[i];
                 if (cookieUsserId.getName().equals("userId")) {
                     userId = Integer.parseInt(cookieUsserId.getValue());
-//                    SELECTED_USER_ID = userId;
                 }
             }
         }
-
-
 
         /*Logger LOG = Logger.getLogger(First.class.getName());
         LOG.setLevel(Level.ALL);
@@ -63,12 +59,8 @@ public class First extends HttpServlet {
 
         out.println("<form method=\"POST\" action=\"show\">");
         out.println("<p>");
-//        out.println("<label for=\"select-user\">Выберите пользователя:</label>");
-        out.println("<select name=\"usr\" id=\"select-user\">");
+        out.println("<select name=\"usr\" class=\"usr\" id=\"selectuser\">");
         out.println("<option value=''>-- Выберите пользователя --</option>");
-
-
-
 
         List<Patient> pat;
         pat = dao.all();
@@ -85,9 +77,9 @@ public class First extends HttpServlet {
 
         out.println("</select>");
 
-//        out.println(" <b>|</b> <a href=\"\">Показать данные</a> ");
-        out.println("<a href=\"\">Редактировать</a> ");
-        out.println("<b>|</b> <a href=\"add_patient_form.html\">Добавить</a>");
+        out.println("<a href=\"add_patient_form.html\">Добавить</a> ");
+        out.println("<b>|</b> <a href=\"editpatient?usr=" + userId + "\" class=\"editLink\">Редактировать</a> ");
+        out.println("<b>|</b> <a href=\"delpatient?usr=" + userId +  "\" class=\"delLink\">Удалить</a>");
         out.println("</p>");
 
         out.println("<p>");
@@ -106,7 +98,9 @@ public class First extends HttpServlet {
         out.println("</p>");
 
         out.print("<input type=\"submit\" value=\"Показать\">");
-        out.println("<form>");
+        out.println("</form>");
+
+        out.println("<script src=\"lw.js\"></script>");
 
         out.println("</body>");
         out.println("</html>");
