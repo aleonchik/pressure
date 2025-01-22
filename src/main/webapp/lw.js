@@ -1,4 +1,4 @@
-var userId;
+let userId;
 const selectElement = document.querySelector(".usr");
 const delLink = document.querySelector('.delLink');
 const editLink = document.querySelector('.editLink');

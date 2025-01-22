@@ -16,7 +16,8 @@ public class PressureDaoImpl implements PressureDao {
     @Override
     public List<Pressure> all(int userId, int count) {
         String sql = "SELECT id, patient_id, sys, dia, pulse, dtm " +
-                "FROM pressure WHERE patient_id = ? AND DATEDIFF(DAY, dtm, ?) < ?";
+                "FROM pressure " +
+                "WHERE patient_id = ? AND (DATEDIFF(DAY, dtm, ?) < ?) ORDER BY dtm";
 
         /**
          * Берем последнюю дату записи для пользователя и от нее в обратную
@@ -107,7 +108,7 @@ public class PressureDaoImpl implements PressureDao {
      * @return Date
      */
     Date getLastDate(int userId) {
-        String sql = "SELECT dtm FROM pressure WHERE patient_id = ? ORDER BY id DESC LIMIT 1";
+        String sql = "SELECT dtm FROM pressure WHERE patient_id = ? ORDER BY dtm DESC LIMIT 1";
         LocalDateTime ld = LocalDateTime.now();
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
