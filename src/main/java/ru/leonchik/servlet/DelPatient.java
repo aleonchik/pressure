@@ -7,16 +7,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.leonchik.dao.PatientDao;
 import ru.leonchik.dao.PatientDaoImpl;
+import ru.leonchik.dao.PressureDao;
+import ru.leonchik.dao.PressureDaoImpl;
 import ru.leonchik.entiti.Patient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 
 @WebServlet(urlPatterns = {"/delpatient"})
 public class DelPatient extends HttpServlet {
 
-    protected PatientDao dao = new PatientDaoImpl();
+    protected PatientDao patient = new PatientDaoImpl();
+    protected PressureDao pressure = new PressureDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,9 +26,8 @@ public class DelPatient extends HttpServlet {
 
         int userId = Integer.parseInt(req.getParameter("usr"));
 
-        Patient pat = new Patient();
-
-        pat = dao.single(userId);
+//        Patient pat = new Patient();
+        Patient pat = patient.single(userId);
 
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
@@ -36,6 +37,11 @@ public class DelPatient extends HttpServlet {
         out.println("<body>");
 
         out.println("<h3 align=\"center\">Удалить пользователя " + pat.getName() + " вместе с его данными</h3>");
+
+        // Удааляем все данные для userID из таблицы даления
+        pressure.deleteAllForUerId(userId);
+        // Удаляем самого пользователя
+        patient.deletePatient(userId);
 
         out.println("<a href=\"/pressure/view\">Вернуться</a>");
 

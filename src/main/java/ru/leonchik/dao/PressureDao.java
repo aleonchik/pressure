@@ -11,4 +11,5 @@ public interface PressureDao {
     void insert(Integer userId, Pressure pressure);
     void update(Pressure pressure)  throws EntityNotFoundException;
     void delete(long pressureId);
+    void deleteAllForUerId(int userId);
 }

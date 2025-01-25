@@ -91,7 +91,30 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public void delete(Patient patient) {
-        data().remove(patient);
+//        data().remove(patient);
+    }
+
+    // Удаляем пользователя
+    @Override
+    public void deletePatient(int userId) {
+        String sql = "DELETE FROM patient WHERE id = ?";
+
+        try (PreparedStatement psDel = conn.prepareStatement(sql)) {
+            try { psDel.setLong(1, userId); }
+            catch (SQLException e) { throw new RuntimeException(e); }
+
+            try {
+                if (psDel.executeUpdate() > 0) {
+                    System.out.println("Record with id=" + userId + " deleted");
+                } else {
+                    System.out.println("Record with id=" + userId + " NOT deleted\"");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private List<Patient> data() {

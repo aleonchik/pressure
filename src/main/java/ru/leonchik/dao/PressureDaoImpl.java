@@ -13,6 +13,29 @@ public class PressureDaoImpl implements PressureDao {
 
     protected Connection conn = new DBConnect().getConnection();
 
+    // Удалить все записи о давлении для пользователя userId
+    @Override
+    public void deleteAllForUerId(int userId) {
+        String sql = "DELETE FROM pressure WHERE patient_id = ?";
+
+        try (PreparedStatement psDel = conn.prepareStatement(sql)) {
+            try { psDel.setLong(1, userId); }
+            catch (SQLException e) { throw new RuntimeException(e); }
+
+            try {
+                if (psDel.executeUpdate() > 0) {
+                    System.out.println("Record with id=" + userId + " deleted");
+                } else {
+                    System.out.println("Record with id=" + userId + " NOT deleted\"");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public List<Pressure> all(int userId, int count) {
         String sql = "SELECT id, patient_id, sys, dia, pulse, dtm " +

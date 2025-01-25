@@ -13,4 +13,5 @@ public interface PatientDao {
     void update(Patient patient) throws EntityNotFoundException;
 //    void delete(Long patientId);
     void delete(Patient patient);
+    void deletePatient(int userId);
 }
