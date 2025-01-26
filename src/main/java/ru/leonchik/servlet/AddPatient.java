@@ -35,7 +35,7 @@ public class AddPatient extends HttpServlet {
         out.println("<html>");
         out.println("<body>");
 
-        out.println("<h3 align=\"center\">Новый пользователь доавлен</h3>");
+        out.println("<h3 align=\"center\">Новый пользователь добавлен</h3>");
 
         out.println("Имя: <b>" + pname + "</b><br>" );
         out.println("Дата рождения: <b>" + dd + "." + mm + "." + yyyy + "</b>");

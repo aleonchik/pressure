@@ -37,7 +37,6 @@ public class Show extends HttpServlet {
         // Получим араметры
         int userId = Integer.parseInt(req.getParameter("usr"));
         int period = Integer.parseInt(req.getParameter("period"));
-//        String period = req.getParameter("period");
 
         Patient patient;
         List<Pressure> pressureList;
@@ -93,7 +92,7 @@ public class Show extends HttpServlet {
                 out.println("<td align=\"right\">" + p.getDia() + "</td>");
                 out.println("<td align=\"right\">" + p.getPulse() + "</td>");
                 out.println("<td>" + dtm.format(fmt) + "</td>");
-                out.println("<td align=\"center\"><a href=\"editrec?id=" +  p.getId()  + "\"><img alt=\"Редактировать\" src=\"img/editrec.png\" height=\"30\"></a></td>");
+                out.println("<td align=\"center\"><a href=\"editrecpressure?id=" +  p.getId()  + "\"><img alt=\"Редактировать\" src=\"img/editrec.png\" height=\"30\"></a></td>");
                 out.println("<td align=\"center\"><a href=\"delrec?id=" + p.getId() +
                         "\" onclick=\"return confirm('Действительно хотите далить?')\"><img alt=\"Удалить\" src=\"img/delrec.png\" height=\"30\"></a></td>");
 //                out.println("<td>" + p.getDtm() + "</td>");

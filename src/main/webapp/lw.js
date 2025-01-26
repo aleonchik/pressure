@@ -6,5 +6,5 @@ const editLink = document.querySelector('.editLink');
 selectElement.addEventListener("change", (event) => {
 	userId = `${event.target.value}`;
 	delLink.href = "delpatient?usr=" + userId;
-	editLink.href = "editpatient?usr=" + userId;
+	editLink.href = "editpatientform?usr=" + userId;
 });

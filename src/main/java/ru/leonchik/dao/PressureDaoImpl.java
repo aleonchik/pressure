@@ -75,7 +75,30 @@ public class PressureDaoImpl implements PressureDao {
 
     @Override
     public Pressure single(long pressureId) {
-        return null;
+        String sql = "SELECT id, patient_id, sys, dia, pulse, dtm FROM pressure WHERE id = ?";
+
+        Pressure p = new Pressure();
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, pressureId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                p.setId(rs.getLong("id"));
+                p.setPatientId(rs.getLong("patient_id"));
+                p.setSys(rs.getInt("sys"));
+                p.setDia(rs.getInt("dia"));
+                p.setPulse(rs.getInt("pulse"));
+                p.setDtm(rs.getObject("dtm", (LocalDateTime.class)));
+
+                /*patient.setId(rs.getInt("id"));
+                patient.setName(rs.getString("name"));
+                patient.setBirth(rs.getDate("birth").toLocalDate());*/
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return p;
     }
 
     @Override
@@ -100,7 +123,19 @@ public class PressureDaoImpl implements PressureDao {
 
     @Override
     public void update(Pressure pressure) throws EntityNotFoundException {
+        String sql = "UPDATE PRESSURE SET sys = ?, dia = ?, pulse = ?, dtm = ? WHERE id = ?";
 
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, pressure.getSys());
+            ps.setInt(2, pressure.getDia());
+            ps.setInt(3, pressure.getPulse());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            ps.setString(4, pressure.getDtm().format(formatter));
+            ps.setLong(5, pressure.getId());
+            boolean result = ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

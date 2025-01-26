@@ -78,7 +78,7 @@ public class First extends HttpServlet {
         out.println("</select>");
 
         out.println("<a href=\"add_patient_form.html\">Добавить</a> ");
-        out.println("<b>|</b> <a href=\"editpatient?usr=" + userId + "\" class=\"editLink\">Редактировать</a> ");
+        out.println("<b>|</b> <a href=\"editpatientform?usr=" + userId + "\" class=\"editLink\">Редактировать</a> ");
         out.println("<b>|</b> <a href=\"delpatient?usr=" + userId +
                 "\" class=\"delLink\" onclick=\"return confirm('Действительно хотите далить? " +
                 "Все данные пользователя будут БЕЗВОЗВРАТНО УДАЛЕНЫ')\">Удалить</a>");

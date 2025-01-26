@@ -75,18 +75,20 @@ public class PatientDaoImpl implements PatientDao {
         }
     }
 
+    // Обновляем
     @Override
     public void update(Patient patient) throws EntityNotFoundException {
-        Patient pt = single(patient.getId());
-        if (pt == null)
-            throw new EntityNotFoundException("Не могу найти пациента с заданными критериями");
+        // UPDATE patient SET name='Лена2', birth='1980-1-1' WHERE id = 8
+        String sql = "UPDATE patient SET name = ?, birth = ? WHERE id = ?";
 
-        pt.setName(patient.getName());
-        pt.setBirth(patient.getBirth());
-    }
-
-    public void deleteById(Long patirntId) {
-//        data().remove(pa)
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, patient.getName());
+            ps.setDate(2, java.sql.Date.valueOf(patient.getBirth()));
+            ps.setInt(3, patient.getId());
+            boolean result = ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
